@@ -3,6 +3,7 @@ Todos.Router.map(function() {
   this.resource('todos', { path: '/' }, function() {
     //additional child routes
     this.route('active');
+    this.route('completed');
   });
 });
 
@@ -43,6 +44,20 @@ Todos.TodosActiveRoute = Ember.Route.extend({
    * renderTemplate method and calling render ourselves with the specific
    * template and controller options.
    ***/
+  renderTemplate: function(controller) {
+    this.render('todos/index', {controller: controller});
+  }
+});
+
+Todos.TodosCompletedRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.filter('todo', function(todo) {
+      return todo.get('isCompleted');
+    });
+  },
+  /***
+   * see comment on TodosActiveRoute renderTemplate
+   */
   renderTemplate: function(controller) {
     this.render('todos/index', {controller: controller});
   }
