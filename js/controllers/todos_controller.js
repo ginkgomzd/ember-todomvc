@@ -13,11 +13,32 @@ Todos.TodosController = Ember.ArrayController.extend({
       this.set('newTitle', '');
 
       todo.save();
+    },
+    clearCompleted: function() {
+      var completed = this.filterBy('isCompleted', true);
+      completed.invoke('deleteRecord');
+      completed.invoke('save');
     }
   },
+  hasCompleted: function() {
+    return this.get('completed') > 0;
+  }.property('completed')
+  ,
+  /***
+   * The completed and clearCompleted methods both invoke the filterBy method,
+   * which is part of the ArrayController API and returns an instance of
+   * EmberArray which contains only the items for which the callback returns true.
+   * http://emberjs.com/api/classes/Ember.ArrayController.html#method_filterProperty
+   * http://emberjs.com/api/classes/Ember.Array.html
+   */
+  completed: function() {
+    return this.filterBy('isCompleted', true).get('length');
+  }.property('@each.isCompleted')// not sure about "@each"... implies an array maybe
+  ,
   remaining: function() {
     return this.filterBy('isCompleted', false).get('length');
-  }.property('@each.isCompleted'),
+  }.property('@each.isCompleted')
+  ,
   inflection: function() {
     var remaining = this.get('remaining');
     return remaining === 1 ? 'item' : 'items';
