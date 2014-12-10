@@ -20,6 +20,9 @@ Todos.TodosIndexRoute = Ember.Route.extend({
    * the model method of TodosIndexRoute, which indicates that the model for
    * this route is the same model as for the TodosRoute.
    *
+   * This mapping is described in more detail in the Naming Conventions Guide.
+   * http://emberjs.com/guides/concepts/naming-conventions
+   *
    ***/
   model: function() {
     return this.modelFor('todos');
